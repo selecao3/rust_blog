@@ -7,7 +7,7 @@ extern crate rocket;
 extern crate rocket_contrib;
 extern crate chrono;
 
-//mod static_files;
+mod static_files;
 mod task;
 mod db;
 
@@ -47,7 +47,7 @@ fn new(todo_form: Form<Todo>, conn: db::Conn) -> Flash<Redirect> {
     if todo.body.is_empty() {
         Flash::error(Redirect::to("/"), "Description cannot be empty.")
         //何も書かずにpostした時のエラー文
-    } else if Task::insert(todo, &conn) {
+    } else if Blog::insert(todo, &conn) {
         Flash::success(Redirect::to("/"), "Todo successfully added.")
     } else {
         Flash::error(Redirect::to("/"), "Whoops! The server failed.")
