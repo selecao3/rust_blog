@@ -1,0 +1,18 @@
+[package]
+name = "rust_study03"
+version = "0.1.0"
+authors = ["kazuha <mami.tomoe4@gmail.com>"]
+
+[dependencies]
+rocket = "*"
+rocket_codegen = "*"
+rocket_contrib = {version = "*", default_features = false, features = ["tera_templates"]}
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
+diesel = { version = "1.1", features = ["mysql", "r2d2"] }
+chrono = "0.4.2"
+
+[dev-dependencies]
+parking_lot = {version = "0.5", features = ["nightly"]}
+rand = "0.4"
