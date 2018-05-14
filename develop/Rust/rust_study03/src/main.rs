@@ -17,7 +17,7 @@ use rocket::request::{Form, FlashMessage};
 use rocket::response::{Flash, Redirect};
 use rocket_contrib::Template;
 
-use task::{Task, Todo};
+use task::{Blog, Todo};
 
 #[derive(Debug, Serialize)]
 //Serialize: データベースに配列データをそのまま保存したい時などに使う
@@ -25,7 +25,7 @@ use task::{Task, Todo};
 // 例えば、ある関数の上に#[test]というアトリビュートが付くと、その関数はテストを実行した際に自動的に実行されるテスト関数になる。
 struct Context<'a, 'b>{
     msg: Option<(&'a str, &'b str)>,
-    tasks: Vec<Task>
+    tasks: Vec<Blog>
 }
 //'aでライフタイムを無視する。ざっくり言うとどこからでも引数が受け取れる
 
@@ -33,18 +33,18 @@ struct Context<'a, 'b>{
 impl<'a, 'b> Context<'a, 'b> {
     //struct Contextに対するimpl
     pub fn err(conn: &db::Conn, msg: &'a str) -> Context<'static, 'a> {
-        Context{msg: Some(("error", msg)), tasks: Task::all(conn)}
+        Context{msg: Some(("error", msg)), tasks: Blog::all(conn)}
     }
 
     pub fn raw(conn: &db::Conn, msg: Option<(&'a str, &'b str)>) -> Context<'a, 'b> {
-        Context{msg: msg, tasks: Task::all(conn)}
+        Context{msg: msg, tasks: Blog::all(conn)}
     }
 }
 
 #[post("/", data = "<todo_form>")]
 fn new(todo_form: Form<Todo>, conn: db::Conn) -> Flash<Redirect> {
     let todo = todo_form.into_inner();
-    if todo.description.is_empty() {
+    if todo.body.is_empty() {
         Flash::error(Redirect::to("/"), "Description cannot be empty.")
         //何も書かずにpostした時のエラー文
     } else if Task::insert(todo, &conn) {
@@ -56,7 +56,7 @@ fn new(todo_form: Form<Todo>, conn: db::Conn) -> Flash<Redirect> {
 
 #[put("/<id>")]
 fn toggle(id: i32, conn: db::Conn) -> Result<Redirect, Template> {
-    if Task::toggle_with_id(id, &conn) {
+    if Blog::toggle_with_id(id, &conn) {
         Ok(Redirect::to("/"))
     } else {
         Err(Template::render("index.tera", &Context::err(&conn, "Couldn't toggle task.")))
@@ -66,7 +66,7 @@ fn toggle(id: i32, conn: db::Conn) -> Result<Redirect, Template> {
 
 #[delete("/<id>")]
 fn delete(id: i32, conn: db::Conn) -> Result<Flash<Redirect>, Template> {
-    if Task::delete_with_id(id, &conn) {
+    if Blog::delete_with_id(id, &conn) {
         Ok(Flash::success(Redirect::to("/"), "Todo was deleted."))
     } else {
         Err(Template::render("index.tera", &Context::err(&conn, "Couldn't delete task.")))
