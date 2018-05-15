@@ -19,7 +19,9 @@
 
     <div class="row">
         <h4>Rocket Todo</h4>
-        <form action="/todo" method="post">
+
+
+<!--<form action="/todo" method="post">
             <div class="ten columns">
                 <input type="text" placeholder="enter a task description..."
                        name="description" id="description" value="" autofocus
@@ -33,8 +35,43 @@
             <div class="two columns">
                 <input type="submit" value="add task">
             </div>
+        </form>-->
+
+
+        <form action="/todo" method="post">
+        <!--titleフォームのdiv-->
+            <div class="ten columns">
+                <input type="text" placeholder="test中"
+                       name="title" id="title" value="" autofocus
+                       class="u-full-width {% if msg %}field-{{msg.0}}{% endif %}" />
+                {% if msg %}
+                <small class="field-{{msg.0}}-msg">
+                    {{ msg.1 }}
+                </small>
+                {% endif %}
+            </div>
+
+        <!--bodyフォームのdiv-->
+            <div class="ten columns">
+                <input type="text" placeholder="test中"
+                       name="body" id="body" value="" autofocus
+                       class="u-full-width {% if msg %}field-{{msg.0}}{% endif %}" />
+                {% if msg %}
+                <small class="field-{{msg.0}}-msg">
+                    {{ msg.1 }}
+                </small>
+                {% endif %}
+            </div>
+
+
+            <div class="two columns">
+                <input type="submit" value="add blog">
+            </div>
         </form>
     </div>
+
+
+
 
     <div class="row">
         <div class="twelve columns">
@@ -42,7 +79,7 @@
                 {% for task in tasks %}
                 {% if task.completed %}
                 <li>
-                    <span class="completed">{{ task.description }}</span>
+                    <span class="completed">{{ task.body}}</span>
                     <form class="inline" action="/todo/{{task.id}}" method="post">
                         <input type="hidden" name="_method" value="put" />
                         <button class="small" type="submit">undo</button>
@@ -56,7 +93,7 @@
                 <li>
                     <form class="link" action="/todo/{{task.id}}" method="post">
                         <input type="hidden" name="_method" value="put" />
-                        <button class="link" type="submit">{{ task.description }}</button>
+                        <button class="link" type="submit">{{ task.body}}</button>
                     </form>
                 </li>
                 {% endif %}

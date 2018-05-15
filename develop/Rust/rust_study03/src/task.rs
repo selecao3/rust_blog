@@ -23,6 +23,7 @@ use self::schema::blog::dsl::{blog as all_tasks, completed as task_completed};
 //#[feature(custom_attribute)]
 #[table_name="blog"]
 #[derive(Serialize, Queryable, Insertable, Debug, Clone)]
+//#[derive(Serialize, Insertable, Debug, Clone)]
 //#[derive(Serialize, Debug, Clone)]
 pub struct Blog{
     pub id: Option<i32>,

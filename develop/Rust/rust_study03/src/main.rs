@@ -54,6 +54,7 @@ fn new(todo_form: Form<Todo>, conn: db::Conn) -> Flash<Redirect> {
     }
 }
 
+
 #[put("/<id>")]
 fn toggle(id: i32, conn: db::Conn) -> Result<Redirect, Template> {
     if Blog::toggle_with_id(id, &conn) {
