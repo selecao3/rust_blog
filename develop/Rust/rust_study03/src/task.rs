@@ -1,8 +1,8 @@
 use diesel;
 use diesel::prelude::*;
 use diesel::mysql::MysqlConnection;
-use diesel::mysql::types::Datetime;
-use self::Insertable;
+//use diesel::mysql::types::Datetime;
+//use self::Insertable;
 
 
 mod schema {
@@ -49,7 +49,12 @@ impl Blog{
     }
 
     pub fn insert(todo: Todo, conn: &MysqlConnection) -> bool {
-        let t = Blog { id: None, title: todo.title, body: todo.body, completed: false};
+        let t = Blog {
+            id: None,
+            title: todo.title,
+            body: todo.body,
+            completed: false
+        };
         //メモ：completedをfalseにすると文字に横線が引かれる。
         diesel::insert_into(blog::table).values(&t).execute(conn).is_ok()
     }
