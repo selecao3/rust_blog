@@ -53,18 +53,14 @@
 
         <!--bodyフォームのdiv-->
             <div class="ten columns">
-
+                <p>
                 <textarea type="text" placeholder="test中"
                        name="body" id="body" value="" autofocus
-                          rows="10"
+                          rows="auto"
                        class="u-full-width {% if msg %}field-{{msg.0}}{% endif %}" >
-                {% if msg %}
-                <small class="field-{{msg.0}}-msg">
-                    {{ msg.1 }}
-                </small>
-                {% endif %}
 
-                </textarea>
+       </textarea>
+                </p>
             </div>
 
 
@@ -79,11 +75,12 @@
 
     <div class="row">
         <div class="twelve columns">
-            <ul>
+
                 {% for task in tasks %}
                 {% if task.completed %}
-                <li>
-                    <span class="completed">{{ task.body}}</span>
+        <pre>
+                    <p class="completed">{{ task.body}}</p>
+        </pre>
                     <form class="inline" action="/todo/{{task.id}}" method="post">
                         <input type="hidden" name="_method" value="put" />
                         <button class="small" type="submit">undo</button>
@@ -92,17 +89,17 @@
                         <input type="hidden" name="_method" value="delete" />
                         <button class="primary small" type="submit">delete</button>
                     </form>
-                </li>
                 {% else %}
-                <li>
+                <p>
                     <form class="link" action="/todo/{{task.id}}" method="post">
                         <input type="hidden" name="_method" value="put" />
                         <button class="link" type="submit">{{ task.title}}</button>
                     </form>
-                </li>
+                </p>
+
                 {% endif %}
                 {% endfor %}
-            </ul>
+
         </div>
     </div>
 </div>
